@@ -3,21 +3,11 @@ import intersection from 'lodash/intersection';
 import Checkbox from './checkbox';
 import props from './checkbox-group-props';
 import { CheckboxOptionObj, TdCheckboxProps, CheckboxGroupValue } from './type';
+import { CheckboxGroupInjectionKey } from './constants';
 
 // hooks
 import useVModel from '../hooks/useVModel';
-import { usePrefixClass } from '../config-provider';
-
-export const CheckboxGroupInjectionKey: InjectionKey<{
-  name: string;
-  isCheckAll: boolean;
-  checkedMap: { [key: string | number]: boolean };
-  maxExceeded: boolean;
-  disabled: boolean;
-  indeterminate: boolean;
-  handleCheckboxChange: (data: { checked: boolean; e: Event; option: TdCheckboxProps }) => void;
-  onCheckedChange: (p: { checked: boolean; checkAll: boolean; e: Event; option: TdCheckboxProps }) => void;
-}> = Symbol('CheckboxGroupProvide');
+import { usePrefixClass } from '../hooks/useConfig';
 
 export default defineComponent({
   name: 'TCheckboxGroup',
@@ -95,6 +85,7 @@ export default defineComponent({
         e: context.e,
         type: checked ? 'check' : 'uncheck',
         current: undefined,
+        option: undefined,
       });
     };
 
@@ -111,6 +102,7 @@ export default defineComponent({
         setInnerValue(val, {
           e: data.e,
           current: data.option.value,
+          option: data.option,
           type: data.checked ? 'check' : 'uncheck',
         });
       } else {
