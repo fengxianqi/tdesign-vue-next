@@ -56,7 +56,8 @@ export default defineComponent({
   computed: {
     showClear(): boolean {
       return (
-        (this.value && !this.disabled && this.clearable && this.isHover && !this.readonly) || this.showClearIconOnEmpty
+        (this.value && !this.disabled && this.clearable && this.isHover && !this.readonly) ||
+        (this.showClearIconOnEmpty && this.isHover)
       );
     },
     tPlaceholder(): string {
