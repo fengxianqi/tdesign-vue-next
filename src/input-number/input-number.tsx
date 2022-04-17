@@ -2,7 +2,6 @@ import { defineComponent, VNode } from 'vue';
 import { AddIcon, RemoveIcon, ChevronDownIcon, ChevronUpIcon } from 'tdesign-icons-vue-next';
 import TButton from '../button';
 import TInput from '../input';
-import CLASSNAMES from '../utils/classnames';
 import props from './props';
 import { ChangeSource, TdInputNumberProps } from './type';
 import { ClassName } from '../common';
@@ -10,7 +9,7 @@ import { emitEvent } from '../utils/event';
 
 // hooks
 import { useFormDisabled } from '../form/hooks';
-import { usePrefixClass } from '../hooks/useConfig';
+import { usePrefixClass, useCommonClassName } from '../hooks/useConfig';
 
 type InputNumberEvent = {
   onInput?: (e: InputEvent) => void;
@@ -53,7 +52,10 @@ export default defineComponent({
     const disabled = useFormDisabled();
     const COMPONENT_NAME = usePrefixClass('input-number');
     const classPrefix = usePrefixClass();
+    const { STATUS, SIZE } = useCommonClassName();
     return {
+      STATUS,
+      SIZE,
       classPrefix,
       COMPONENT_NAME,
       disabled,
@@ -102,7 +104,7 @@ export default defineComponent({
       return [
         `${this.COMPONENT_NAME}__decrease`,
         {
-          [CLASSNAMES.STATUS.disabled]: this.disabledReduce,
+          [this.STATUS.disabled]: this.disabledReduce,
         },
       ];
     },
@@ -115,7 +117,7 @@ export default defineComponent({
       return [
         `${this.COMPONENT_NAME}__increase`,
         {
-          [CLASSNAMES.STATUS.disabled]: this.disabledAdd,
+          [this.STATUS.disabled]: this.disabledAdd,
         },
       ];
     },
@@ -127,9 +129,9 @@ export default defineComponent({
     cmptWrapClasses(): ClassName {
       return [
         this.COMPONENT_NAME,
-        CLASSNAMES.SIZE[this.size],
+        this.SIZE[this.size],
         {
-          [CLASSNAMES.STATUS.disabled]: this.disabled,
+          [this.STATUS.disabled]: this.disabled,
           [`${this.classPrefix}-is-controls-right`]: this.theme === 'column',
           [`${this.COMPONENT_NAME}--${this.theme}`]: this.theme,
           [`${this.COMPONENT_NAME}--auto-width`]: this.autoWidth,
